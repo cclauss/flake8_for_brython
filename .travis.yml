@@ -1,0 +1,24 @@
+sudo: false
+language: python
+python:
+    - "2.7.13"
+    - "3.6.0"
+    - "nightly"  # currently points to 3.7-dev
+before_install:
+    - git clone --depth=50 --branch=master https://github.com/LazoCoder/Pokemon-Terminal ~/Pokemon-Terminal
+install:
+    - pip install flake8
+#before_script:
+    # all flake8 errors with --exit-zero
+    - # flake8 ~/openwhisk --count --max-line-length=127 --statistics --exit-zero
+    - # cd ~/openwhisk/tools/
+    - # flake8 $NO_PY_EXTENSION_FILES --count --max-line-length=127 --statistics --exit-zero
+    - # chmod +x *.py
+script:
+    # - python ./invoke_run.py
+    # stop the build if there are: E999 SyntaxError: invalid syntax
+    - flake8 ~/Pokemon-Terminal --count --select=E999 --statistics
+    - flake8 ~/Pokemon-Terminal --count --exit-zero --max-line-length=127 --statistics
+notifications:
+    on_success: change
+    on_failure: always
