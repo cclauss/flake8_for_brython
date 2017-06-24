@@ -6,8 +6,8 @@ python:
     - "3.6.1"
     - "nightly"  # currently points to 3.7-dev
 before_install:
-    - git clone --depth=50 --branch=master https://github.com/LazoCoder/Pokemon-Terminal ~/Pokemon-Terminal
-    - cd ~/Pokemon-Terminal
+    - git clone --depth=50 --branch=master https://github.com/cclauss/qiskit-api-py ~/qiskit-api-py
+    - cd ~/qiskit-api-py
 install:
     - pip install flake8
 before_script:
