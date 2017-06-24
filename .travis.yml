@@ -11,7 +11,6 @@ install:
 #before_script:
     # all flake8 errors with --exit-zero
     - # flake8 ~/openwhisk --count --max-line-length=127 --statistics --exit-zero
-    - # cd ~/openwhisk/tools/
     - # flake8 $NO_PY_EXTENSION_FILES --count --max-line-length=127 --statistics --exit-zero
     - # chmod +x *.py
 script:
