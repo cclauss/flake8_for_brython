@@ -11,9 +11,9 @@ import time
 tuple_store = False
 try:
     Database.MAX_ID
-except AttributeError:
     tuple_store = True
-assert tuple_store
+except AttributeError:
+    pass
 
 
 def print_list(list_of_items):
