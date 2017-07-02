@@ -113,8 +113,8 @@ def test_all(capsys):
     main([__file__, 'all'])
     out, err = capsys.readouterr()
     for region_info in region_dict.values():
-        assert region_info.first in out
-        assert region_info.last in out
+        assert (region_info.first or '') in out  # convert None --> ''
+        assert (region_info.last or '') in out   # convert None --> ''
 
 
 def test_question_mark(capsys):
