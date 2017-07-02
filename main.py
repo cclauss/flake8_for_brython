@@ -13,7 +13,7 @@ try:
     Database.MAX_ID
 except AttributeError:
     tuple_store = True
-
+assert tuple_store
 
 
 def print_list(list_of_items):
