@@ -20,7 +20,7 @@ counts = {'kanto': 151, 'johto': 100, 'hoenn': 135, 'sinnoh': 107, 'all': 493}
 
 def test_kanto_length():  # passes
     if tuple_store:
-        assert len(db.get_region('kanto') == 151  # Passes
+        assert len(db.get_region('kanto')) == 151  # Passes
     else:
         assert len(db.get_kanto()) == 151  # Passes
         
@@ -28,21 +28,21 @@ def test_kanto_length():  # passes
 
 def test_johto_length():  # fails:
     if tuple_store:
-        assert len(db.get_region('johto') == 100  # Passes
+        assert len(db.get_region('johto')) == 100  # Passes
     else:
         assert len(db.get_johto()) == 100  # Fails: assert 101 == 100
 
 
 def test_hoenn_length():  # fails:
     if tuple_store:
-        assert len(db.get_region('hoenn') == 135  # Passes
+        assert len(db.get_region('hoenn')) == 135  # Passes
     else:
         assert len(db.get_hoenn()) == 135  # Fails: assert 144 == 135
 
 
 def test_sinnoh_length():  # fails:
     if tuple_store:
-        assert len(db.get_region('sinnoh') == 107  # Passes
+        assert len(db.get_region('sinnoh')) == 107  # Passes
     else:
         assert len(db.get_sinnoh()) == 107  # Fails: assert 121 == 107
 
