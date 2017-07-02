@@ -5,6 +5,7 @@
 from collections import namedtuple
 from database import Database
 from main import main
+import pytest
 
 region_record = namedtuple('region_record', 'roman_number start end')
 region_dict = {
