@@ -62,7 +62,7 @@ def load_pokemon(filename='pokemon.txt'):
         return [make_a_pokemon(i, line) for i, line in enumerate(in_file)]
 
 
-def make_an_extra_pokemon(filename, in_ext='.png'):
+def make_an_extra_pokemon(filename, in_ext='.jpg'):
     root, ext = os.path.splitext(filename)
     if ext.lower() == in_ext:
         path = os.path.join(EXTRA_DIR, filename)
