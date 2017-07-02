@@ -42,7 +42,7 @@ def test_no_args(capsys):
 def test_len():
     # Database unfortunately makes db.__MAX_ID private :-(
     __MAX_ID = Database.MAX_ID if tuple_store else 493
-    len_extra = len(db.get_region('extra') if tuple_store else db.get_extra()
+    len_extra = len(db.get_region('extra') if tuple_store else db.get_extra())
     assert len(db) == __MAX_ID + len_extra
 
 
