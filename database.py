@@ -128,6 +128,9 @@ class Database:
     def get_regions(self):
         return self.region_names
 
+    def get_all(self):
+        return self.all_pokemon
+
     def get_kanto(self):
         "!!! Temporary backward compatibility !!!"
         return self.get_region('kanto')
