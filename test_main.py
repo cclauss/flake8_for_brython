@@ -87,6 +87,8 @@ def region_test(capsys, region_name):
     out, err = capsys.readouterr()
     # matrix test of first pokemon name and last pokemon name from all regions
     for name, region_info in region_dict.items():
+        if name == 'extra':
+            continue
         assert (region_info.first in out) == (name == region_name)
         assert (region_info.last in out) == (name == region_name)
 
