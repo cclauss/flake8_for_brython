@@ -27,19 +27,21 @@ class Database:
 
     @property
     def all_pokemon(self):
-        """Get all the Pokemon. Caution: returns generator expression"""
-        return (p for p in self.pokemon_list)
+        """Returns a list of all Pokemon."""
+        return self.pokemon_list[:]
 
     def get_light_pokemon(self, threshold=0.4):
-        return (p for p in self.pokemon_list if p.threshold > threshold)
+        """Returns a list of all Pokemon whose threshold is > threshold."""
+        return [p for p in self.pokemon_list if p.threshold > threshold]
 
     def get_dark_pokemon(self, threshold=0.6):
-        return (p for p in self.pokemon_list if p.threshold < threshold)
+        """Returns a list of all Pokemon whose threshold is < threshold."""
+        return [p for p in self.pokemon_list if p.threshold < threshold]
 
     def get_region(self, region):
-        """Helper method for getting all the Pokemon of a specified region"""
+        """Returns a list of all Pokemon in a specified region"""
         assert region in region_dict, 'Invalid region: ' + region
-        return (p for p in self.pokemon_list if p.region == region)
+        return [p for p in self.pokemon_list if p.region == region]
 
     @property
     def random_pokemon(self):
@@ -90,20 +92,20 @@ class Database:
 
     def get_pokemon_by_name_infix(self, infix):
         """Return Pokemon whose name contains the specified infix."""
-        return (pkmn for pkmn in self.pokemon_list if infix in pkmn.name)
+        return [p for p in self.pokemon_list if infix in p.name]
 
     def get_pokemon_by_name_prefix(self, prefix):
         """Return Pokemon whose name begin with the specified prefix."""
-        return (p for p in self.pokemon_list if p.name.startswith(prefix))
+        return [p for p in self.pokemon_list if p.name.startswith(prefix)]
 
     def get_pokemon_by_type(self, type_name):
-        return (p for p in self.pokemon_list if type_name in p.types)
+        return [p for p in self.pokemon_list if type_name in p.types]
 
     def get_pokemon_by_main_type(self, type_name):
-        return (p for p in self.pokemon_list if type_name == p.types[0])
+        return [p for p in self.pokemon_list if type_name == p.types[0]]
 
     def get_pokemon_by_subtype(self, type_name):
-        return (p for p in self.pokemon_list if type_name == p.types[1])
+        return [p for p in self.pokemon_list if type_name == p.types[1]]
 
     @property
     def main_types(self):
@@ -146,4 +148,4 @@ if __name__ == '__main__':
     print(len(list(db.get_pokemon_by_type('dragon'))))
     print(len(list(db.get_pokemon_by_main_type('dragon'))))
     print(len(list(db.get_pokemon_by_subtype('dragon'))))
-# print(db)
+    # print(db)
