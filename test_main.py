@@ -81,11 +81,11 @@ def _ts_test_region(region_name):
 
     
     def test_regions():
-    for region_name in region_dict:
-        if tuple_store:
-            _ts_test_region(region_name)
-        else:
-            _test_region(region_name)
+        for region_name in region_dict:
+            if tuple_store:
+                _ts_test_region(region_name)
+            else:
+                _test_region(region_name)
 
 
 def test_three_args(capsys):
