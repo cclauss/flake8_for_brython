@@ -10,7 +10,7 @@ try:
     tuple_store = True
 except AttributeError:
     pass
-    
+
 print('From https://en.wikipedia.org/wiki/Pok%C3%A9mon#Generation_1 ...')
 counts = {'kanto': 151, 'johto': 100, 'hoenn': 135, 'sinnoh': 107, 'all': 493}
 
@@ -21,7 +21,7 @@ def test_kanto_length():  # passes
         assert len(db.get_region('kanto')) == 151  # Passes
     else:
         assert len(db.get_kanto()) == 151  # Passes
-        
+
 
 def test_johto_length():  # fails:
     db = Database()
