@@ -12,7 +12,7 @@ region_dict = {
     "kanto": region_record(1, 151, 'Bulbasaur', 'Mew'),
     "johto": region_record(152, 251, 'Chikorita', 'Celebi'),
     "hoenn": region_record(252, 386, 'Treecko', 'Deoxys'),
-    "sinnoh": region_record(387, 493, 'Turtwig', 'Arceus,'),
+    "sinnoh": region_record(387, 493, 'Turtwig', 'Arceus'),
     "extra": region_record(494, 100000, None, None)
 }
 
