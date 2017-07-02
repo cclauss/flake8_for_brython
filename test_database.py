@@ -18,7 +18,6 @@ region_dict = {
     'johto': region_info('II', 152, 251),
     'hoenn': region_info('III', 252, 386),
     'sinnoh': region_info('IV', 387, 493),
-    'extra': region_info('', 494, 10000)
 }
 
 
@@ -111,15 +110,14 @@ def region_test(region_name):
     delta = region_info.end - region_info.start
     fmt = 'Testing {}({} vs. {}): {}'
     print(fmt.format(region_name, len(pokemon), delta + 1, region_info))
-    if region_name != 'extra':
-        # test db.get_pokemon(id)
-        middle_pokemon = db.get_pokemon(region_info.start + (delta // 2))
-        assert middle_pokemon in pokemon
-        # test db.get_pokemon(name)
-        name = middle_pokemon.name if tuple_store else middle_pokemon.get_name()
-        assert db.get_pokemon(name) in pokemon
-        # test the case insensivity of db.get_pokemon(name)
-        assert db.get_pokemon(name.upper()) in pokemon
+    # test db.get_pokemon(id)
+    middle_pokemon = db.get_pokemon(region_info.start + (delta // 2))
+    assert middle_pokemon in pokemon
+    # test db.get_pokemon(name)
+    name = middle_pokemon.name if tuple_store else middle_pokemon.get_name()
+    assert db.get_pokemon(name) in pokemon
+    # test the case insensivity of db.get_pokemon(name)
+    assert db.get_pokemon(name.upper()) in pokemon
 
 
 def test_kanto():
@@ -180,8 +178,8 @@ def _ts_test_region(region_name):
     end = len(db) if region_name == "extra" else region_record.end
     # make sure there are no missing pokemon
     assert len(pokemon_list) == end - start + 1
-    if region_name == "extra":
-        return
+    #if region_name == "extra":
+    #    return
     # make sure that all pokemon.id are in the ID range
     assert all([start <= p.id <= end for p in pokemon_list])
 
