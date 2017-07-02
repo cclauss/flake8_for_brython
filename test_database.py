@@ -143,3 +143,53 @@ def test_sinnoh():
 def test_regions():
     for region_name in region_dict:
         region_test(region_name)
+
+
+def test_len():
+    # Database unfortunately makes db.__MAX_ID private :-(
+    __MAX_ID = Database.MAX_ID if tuple_store else 493
+    len_extra = len(db.get_region('extra') if tuple_store else db.get_extra())
+    assert len(db) == __MAX_ID + len_extra
+
+
+def _test_region(region_name):
+    region_name = (region_name or 'extra').lower()
+    # Database unfortunately makes db.__get_region() private :-(
+    func = {
+        "kanto": db.get_kanto,
+        "johto": db.get_johto,
+        "hoenn": db.get_hoenn,
+        "sinnoh": db.get_sinnoh,
+        "extra": db.get_extra
+    }[region_name]
+    pokemon_list = func()
+    region_record = region_dict[region_name]
+    start = region_record.start
+    end = len(db) if region_name == "extra" else region_record.end
+    # make sure there are no missing pokemon
+    assert len(pokemon_list) == end - start + 1
+    if region_name == "extra":
+        return
+    # make sure that all pokemon.id are in the ID range
+    assert all([start <= int(p.get_id()) <= end for p in pokemon_list])
+
+
+def _ts_test_region(region_name):
+    pokemon_list = db.get_region(region_name)
+    region_record = region_dict[region_name]
+    start = region_record.start
+    end = len(db) if region_name == "extra" else region_record.end
+    # make sure there are no missing pokemon
+    assert len(pokemon_list) == end - start + 1
+    if region_name == "extra":
+        return
+    # make sure that all pokemon.id are in the ID range
+    assert all([start <= p.id <= end for p in pokemon_list])
+
+    
+def test_regions_two():
+    for region_name in region_dict:
+        if tuple_store:
+            _ts_test_region(region_name)
+        else:
+            _test_region(region_name)
