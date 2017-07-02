@@ -153,6 +153,7 @@ def test_len():
 
 
 def _test_region(region_name):
+    db = Database()
     region_name = (region_name or 'extra').lower()
     # Database unfortunately makes db.__get_region() private :-(
     func = {
@@ -175,6 +176,7 @@ def _test_region(region_name):
 
 
 def _ts_test_region(region_name):
+    db = Database()
     pokemon_list = db.get_region(region_name)
     region_record = region_dict[region_name]
     start = region_record.start
