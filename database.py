@@ -14,6 +14,8 @@ class Database:
         assert self.pokemon_list, 'Failed to load the Pokemon list!!'
         self.pokemon_dict = {p.name: p for p in self.pokemon_list}
         assert len(self.pokemon_list) == len(self.pokemon_dict), 'DuplicateErr'
+        # temporary backward compatibility...
+         self.names_with_prefix = self.get_pokemon_by_name_prefix
 
     def __str__(self):
         return '\n'.join(as_str(p) for p in self.pokemon_list)
@@ -42,6 +44,26 @@ class Database:
         """Returns a list of all Pokemon in a specified region"""
         assert region in region_dict, 'Invalid region: ' + region
         return [p for p in self.pokemon_list if p.region == region]
+
+    def get_kanto(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('kanto')
+
+    def get_johto(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('johto')
+
+    def get_hoenn(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('hoenn')
+
+    def get_sinnoh(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('sinnoh')
+
+    def get_extra(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('extra')
 
     @property
     def random_pokemon(self):
