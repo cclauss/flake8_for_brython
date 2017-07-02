@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# The Database object is a container for all the supported Pokemon.
+# The Database object is a tuple store for all the supported Pokemon.
 
 import random
 from load_all_pokemon import as_str, load_all_pokemon, region_dict
