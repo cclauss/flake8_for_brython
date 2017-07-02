@@ -7,24 +7,20 @@ from database import Database
 from main import main
 import pytest
 
-region_record = namedtuple('region_record', 'roman_number start end')
+region_record = namedtuple('region_record', 'start end first last')
 region_dict = {
-    "kanto": region_record("I", 1, 151),
-    "johto": region_record("II", 152, 251),
-    "hoenn": region_record("III", 252, 386),
-    "sinnoh": region_record("IV", 387, 493),
-    "extra": region_record("", 494, 100000)
+    "kanto": region_record(1, 151, 'Bulbasaur', 'Mew'),
+    "johto": region_record(152, 251, 'Chikorita', 'Celebi'),
+    "hoenn": region_record(252, 386, 'Treecko', 'Deoxys'),
+    "sinnoh": region_record(387, 493, 'Turtwig', 'Arceus,'),
+    "extra": region_record(494, 100000)
 }
 
-tuple_store = False
 db = Database()
 print(len(db))
+tuple_store = False
 try:
-    print(len(db.get_kanto()))
-    print(len(db.get_johto()))
-    print(len(db.get_hoenn()))
-    print(len(db.get_sinnoh()))
-    print(len(db.get_extra()))
+    db.get_kanto
 except AttributeError:
     tuple_store = True
 
@@ -43,3 +39,81 @@ def test_three_args(capsys):
     main([__file__, 1, 2, 3])
     out, err = capsys.readouterr()
     assert out.startswith("Invalid number of arguments.")
+
+
+def test_two_letters(capsys):
+    main([__file__, 'bu'])
+    out, err = capsys.readouterr()
+    assert 'Butterfree' in out
+    # prefix search only
+    main([__file__, 'ut'])
+    out, err = capsys.readouterr()
+    assert 'butterfree' not in out.lower()
+
+
+def test_extra(capsys):
+    main([__file__, 'extra'])
+    out, err = capsys.readouterr()
+    assert out.count('Castform') == 3
+    # prefix search only
+    main([__file__, 'ut'])
+    out, err = capsys.readouterr()
+    assert 'turtwig' not in out.lower()
+
+
+def test_region_names(capsys):
+    main([__file__, 'regions'])
+    out, err = capsys.readouterr()
+    for region_name in region_dict:
+        assert region_name in out + 'extra'
+
+
+def test_help(capsys):
+    main([__file__, 'help'])
+    out, err = capsys.readouterr()
+    assert 'Usage:' in out
+
+
+def test_minus_h(capsys):
+    main([__file__, '-h'])
+    out, err = capsys.readouterr()
+    assert 'Usage:' in out
+
+
+def region_test(capsys, region_name):
+    main([__file__, region_name])
+    out, err = capsys.readouterr()
+    # matrix test of first pokemon name and last pokemon name from all regions
+    for name, region_info in region_dict.items():
+        assert region_info.first in out == (name == region_name)
+        assert region_info.last in out == (name == region_name)
+
+
+def test_kanto(capsys):
+    region_test(capsys, 'kanto')
+
+
+def test_johto(capsys):
+    region_test(capsys, 'johto')
+
+
+def test_hoenn(capsys):
+    region_test(capsys, 'hoenn')
+
+
+def test_sinnoh(capsys):
+    region_test(capsys, 'sinnoh')
+
+
+def test_all(capsys):
+    main([__file__, 'all'])
+    out, err = capsys.readouterr()
+    for region_info in region_dict.values():
+        assert region_info.first in out
+        assert region_info.last in out
+
+
+def test_question_mark(capsys):
+    main([__file__, '?'])
+    out, err = capsys.readouterr()
+    assert 'deprecated' in out
