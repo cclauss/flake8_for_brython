@@ -18,11 +18,13 @@ region_dict = {
 
 db = Database()
 print(len(db))
+
 tuple_store = False
 try:
-    db.get_kanto
-except AttributeError:
+    Database.MAX_ID    # Old Database makes db.__MAX_ID private
     tuple_store = True
+except AttributeError:
+    pass
 
 
 def test_no_args(capsys):
