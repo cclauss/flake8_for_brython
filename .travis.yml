@@ -2,9 +2,9 @@ sudo: false
 dist: trusty
 language: python  #
 python:
-    - "3.5"
+    #- "3.5"
     - "3.6.1"
-    - "nightly"  # currently points to 3.7-dev
+    #- "nightly"  # currently points to 3.7-dev
 before_install:
     #- git clone --depth=50 --branch=patch-2 https://github.com/cclauss/Pokemon-Terminal.git ~/Pokemon-Terminal
     - git clone --depth=50 --branch=master https://github.com/LazoCoder/Pokemon-Terminal ~/Pokemon-Terminal
