@@ -6,7 +6,7 @@ from database import Database
 
 tuple_store = False
 try:
-    MAX_ID  # Old Database makes db.__MAX_ID private
+    Database.MAX_ID  # Old Database makes db.__MAX_ID private
     tuple_store = True
 except AttributeError:
     pass
