@@ -28,6 +28,10 @@ class Database:
         return len(self.pokemon_list)
 
     @property
+    def region_names(self):
+        return region_dict.keys()
+
+    @property
     def all_pokemon(self):
         """Returns a list of all Pokemon."""
         return self.pokemon_list[:]
@@ -44,26 +48,6 @@ class Database:
         """Returns a list of all Pokemon in a specified region"""
         assert region in region_dict, 'Invalid region: ' + region
         return [p for p in self.pokemon_list if p.region == region]
-
-    def get_kanto(self):
-        "!!! Temporary backward compatibility !!!"
-        return self.get_region('kanto')
-
-    def get_johto(self):
-        "!!! Temporary backward compatibility !!!"
-        return self.get_region('johto')
-
-    def get_hoenn(self):
-        "!!! Temporary backward compatibility !!!"
-        return self.get_region('hoenn')
-
-    def get_sinnoh(self):
-        "!!! Temporary backward compatibility !!!"
-        return self.get_region('sinnoh')
-
-    def get_extra(self):
-        "!!! Temporary backward compatibility !!!"
-        return self.get_region('extra')
 
     @property
     def random_pokemon(self):
@@ -138,6 +122,32 @@ class Database:
     def subtypes(self):
         return tuple(
             sorted(set(p.types[1] for p in self.pokemon_list if p.types[1])))
+
+    # === DEPRICATED -- !!! Temporary backward compatibility !!!===
+
+    def get_regions(self):
+        return self.region_names
+
+    def get_kanto(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('kanto')
+
+    def get_johto(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('johto')
+
+    def get_hoenn(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('hoenn')
+
+    def get_sinnoh(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('sinnoh')
+
+    def get_extra(self):
+        "!!! Temporary backward compatibility !!!"
+        return self.get_region('extra')
+
 
 
 if __name__ == '__main__':
