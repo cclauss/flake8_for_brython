@@ -4,14 +4,15 @@
 
 from database import Database
 import random
-tuple_store = False
-try:
-    import scripter
-except ImportError:
-    scripter = random
-    tuple_store = True
+import scripter
 import sys
 import time
+
+tuple_store = False
+try:
+    Database.MAX_ID
+except AttributeError:
+    tuple_store = True
 
 
 
