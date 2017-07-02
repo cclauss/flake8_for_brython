@@ -25,8 +25,11 @@ print(len(db.get_extra()))
 
 
 def test_no_args(capsys):
-    with pytest.raises(SystemExit):
-        main([__file__])
+    try:
+        with pytest.raises(SystemExit):
+            main([__file__])
+    except SystemExit:
+        pass
     out, err = capsys.readouterr()
     assert out.startswith("No command line arguments specified.")
 
