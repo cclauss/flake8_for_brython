@@ -57,9 +57,6 @@ def test_extra(capsys):
     main([__file__, 'extra'])
     out, err = capsys.readouterr()
     assert out.count('Castform') == 3
-    # prefix search only
-    main([__file__, 'ut'])
-    out, err = capsys.readouterr()
     assert 'turtwig' not in out.lower()
 
 
@@ -67,19 +64,16 @@ def test_region_names(capsys):
     main([__file__, 'regions'])
     out, err = capsys.readouterr()
     for region_name in region_dict:
-        assert region_name in out + 'extra'
+        assert region_name in out
 
 
 def test_help(capsys):
     main([__file__, 'help'])
     out, err = capsys.readouterr()
     assert 'Usage:' in out
-
-
-def test_minus_h(capsys):
     main([__file__, '-h'])
-    out, err = capsys.readouterr()
-    assert 'Usage:' in out
+    out2, err = capsys.readouterr()
+    assert out2 == out
 
 
 def region_test(capsys, region_name):
