@@ -13,7 +13,7 @@ region_dict = {
     "johto": region_record(152, 251, 'Chikorita', 'Celebi'),
     "hoenn": region_record(252, 386, 'Treecko', 'Deoxys'),
     "sinnoh": region_record(387, 493, 'Turtwig', 'Arceus,'),
-    "extra": region_record(494, 100000)
+    "extra": region_record(494, 100000, None, None)
 }
 
 db = Database()
