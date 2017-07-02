@@ -185,7 +185,7 @@ def _ts_test_region(region_name):
     # make sure that all pokemon.id are in the ID range
     assert all([start <= p.id <= end for p in pokemon_list])
 
-    
+
 def test_regions_two():
     for region_name in region_dict:
         if tuple_store:
