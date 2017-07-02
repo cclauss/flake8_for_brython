@@ -24,6 +24,7 @@ def test_first_database():
     try:
         db.get_kanto
     except AttributeError:
+        global tuple_store
         tuple_store = True
     print('{} items in first database.'.format(db))
 
