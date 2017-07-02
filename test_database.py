@@ -37,7 +37,7 @@ def test_get_extras():
     db = Database()
     if tuple_store:
         assert db.get_region('extra'), "db.get_region('extra') returns no pokemon"
-    else
+    else:
         assert db.get_extra(), 'db.get_extra() returns no pokemon'
 
 
