@@ -16,13 +16,17 @@ region_dict = {
     "extra": region_record("", 494, 100000)
 }
 
+tuple_store = False
 db = Database()
 print(len(db))
-print(len(db.get_kanto()))
-print(len(db.get_johto()))
-print(len(db.get_hoenn()))
-print(len(db.get_sinnoh()))
-print(len(db.get_extra()))
+try:
+    print(len(db.get_kanto()))
+    print(len(db.get_johto()))
+    print(len(db.get_hoenn()))
+    print(len(db.get_sinnoh()))
+    print(len(db.get_extra()))
+except AttributeError:
+    tuple_store = True
 
 
 def test_no_args(capsys):
@@ -63,9 +67,25 @@ def _test_region(region_name):
     assert all([start <= int(p.get_id()) <= end for p in pokemon_list])
 
 
-def test_regions():
+def _ts_test_region(region_name):
+    pokemon_list = db.get_region(region_name)
+    region_record = region_dict[region_name]
+    start = region_record.start
+    end = len(db) if region_name == "extra" else region_record.end
+    # make sure there are no missing pokemon
+    assert len(pokemon_list) == end - start + 1
+    if region_name == "extra":
+        return
+    # make sure that all pokemon.id are in the ID range
+    assert all([start <= p.id <= end for p in pokemon_list])
+
+    
+    def test_regions():
     for region_name in region_dict:
-        _test_region(region_name)
+        if tuple_store:
+            _ts_test_region(region_name)
+        else:
+            _test_region(region_name)
 
 
 def test_three_args(capsys):
