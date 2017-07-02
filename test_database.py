@@ -18,7 +18,7 @@ region_dict = {
     'johto': region_info('II', 152, 251),
     'hoenn': region_info('III', 252, 386),
     'sinnoh': region_info('IV', 387, 493),
-    'extra': region_info('', 0, 0)
+    'extra': region_info('', 494, 10000)
 }
 
 
