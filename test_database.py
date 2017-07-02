@@ -5,9 +5,12 @@
 from collections import namedtuple
 from database import Database
 
-# Database unfortunately makes db.__MAX_ID private :-(
-MAX_ID = 493
 tuple_store = False
+try:
+    MAX_ID = Database.MAX_ID
+    tuple_store = True
+except AttributeError:
+    MAX_ID = 493  # Old Database makes db.__MAX_ID private :-(
 
 region_info = namedtuple('region_info', 'roman_number start end')
 region_dict = {
@@ -21,11 +24,6 @@ region_dict = {
 
 def test_first_database():
     db = Database()
-    try:
-        db.get_kanto
-    except AttributeError:
-        global tuple_store
-        tuple_store = True
     print('{} items in first database.'.format(db))
 
 
