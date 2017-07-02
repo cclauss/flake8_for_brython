@@ -144,10 +144,9 @@ def test_regions():
 
 
 def test_len():
-    # Database unfortunately makes db.__MAX_ID private :-(
-    __MAX_ID = Database.MAX_ID if tuple_store else 493
+    db = Database()
     len_extra = len(db.get_region('extra') if tuple_store else db.get_extra())
-    assert len(db) == __MAX_ID + len_extra
+    assert len(db) == MAX_ID + len_extra
 
 
 def _test_region(region_name):
