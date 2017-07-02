@@ -7,6 +7,7 @@ from database import Database
 
 # Database unfortunately makes db.__MAX_ID private :-(
 MAX_ID = 493
+tuple_store = False
 
 region_info = namedtuple('region_info', 'roman_number start end')
 region_dict = {
@@ -20,6 +21,10 @@ region_dict = {
 
 def test_first_database():
     db = Database()
+    try:
+        db.get_kanto
+    except AttributeError:
+        tuple_store = True
     print('{} items in first database.'.format(db))
 
 
@@ -30,7 +35,10 @@ def test_second_database():
 
 def test_get_extras():
     db = Database()
-    assert db.get_extra(), 'db.get_extra() returns no pokemon'
+    if tuple_store:
+        assert db.get_region('extra'), "db.get_region('extra') returns no pokemon"
+    else
+        assert db.get_extra(), 'db.get_extra() returns no pokemon'
 
 
 def test_region_dict():
@@ -67,7 +75,7 @@ def get_region(db, region_name):
 def region_length_test(region_name):
     db = Database()
     # test db.get_region()
-    pokemon = get_region(db, region_name)
+    pokemon = db.get_region(region_name) if tuple_store else get_region(db, region_name)
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
@@ -97,7 +105,7 @@ def test_sinnoh_length():
 def region_test(region_name):
     db = Database()
     # test db.get_region()
-    pokemon = get_region(db, region_name)
+    pokemon = db.get_region(region_name) if tuple_store else get_region(db, region_name)
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
