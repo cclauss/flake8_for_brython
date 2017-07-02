@@ -27,7 +27,7 @@ def print_columns(items):
     items_per_column = int(len(items) / 4) + 1
     for index, pokemon in enumerate(items):
         if tuple_store:
-            name = ('{:03}'.format(pokemon.id) if pokemon.id else '---') + pokemon.name
+            name = ('{:03} '.format(pokemon.id) if pokemon.id else '--- ') + pokemon.name.title()
         else:
             if not pokemon.is_extra():
                 name = pokemon.get_id() + " " + str(pokemon.get_name()).capitalize()
