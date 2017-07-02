@@ -15,7 +15,7 @@ class Database:
         self.pokemon_dict = {p.name: p for p in self.pokemon_list}
         assert len(self.pokemon_list) == len(self.pokemon_dict), 'DuplicateErr'
         # temporary backward compatibility...
-         self.names_with_prefix = self.get_pokemon_by_name_prefix
+        self.names_with_prefix = self.get_pokemon_by_name_prefix
 
     def __str__(self):
         return '\n'.join(as_str(p) for p in self.pokemon_list)
