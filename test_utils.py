@@ -38,7 +38,7 @@ def expected_len(region_name):
 
 def test_region_dict():
     """Test if region_dict counts match wikipedia."""
-    assert _counts['all'] == sum(_counts.values()) == MAX_ID
+    assert _counts['all'] == MAX_ID == sum(_counts.values()) // 2
     for region_name in region_dict:
         assert _counts[region_name] == expected_len(region_name)
         # print('{}: {}'.format(region_name, counts[region_name]))
