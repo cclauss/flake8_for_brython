@@ -56,7 +56,7 @@ def test_two_letters(capsys):
 def test_extra(capsys):
     main([__file__, 'extra'])
     out, err = capsys.readouterr()
-    assert out.count('Castform') == 3
+    assert out.count('Castform') == 3, out
     assert 'turtwig' not in out.lower()
 
 
