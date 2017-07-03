@@ -50,13 +50,16 @@ extra_counts = make_extra_counts()
 
 
 def test_first_database():
-    db = Database()
-    print('{} items in first database.'.format(db))
+    print('{} items in first database.'.format(Database()))
 
 
 def test_second_database():
+    print('{} items in second database.'.format(Database()))
+
+
+def test_len():
     db = Database()
-    print('{} items in second database.'.format(db))
+    assert len(db) == MAX_ID + db.get_extra()
 
 
 def test_extra_counts():
@@ -176,52 +179,26 @@ def test_regions():
         region_test(region_name)
 
 
-def test_len():
-    db = Database()
-    len_extra = len(db.get_region('extra') if tuple_store else db.get_extra())
-    assert len(db) == MAX_ID + len_extra
-
-
 def _test_region(region_name):
     db = Database()
-    region_name = (region_name or 'extra').lower()
     # Database unfortunately makes db.__get_region() private :-(
     func = {
         "kanto": db.get_kanto,
         "johto": db.get_johto,
         "hoenn": db.get_hoenn,
         "sinnoh": db.get_sinnoh,
-        "extra": db.get_extra
     }[region_name]
     pokemon_list = func()
     region_record = region_dict[region_name]
-    start = region_record.start
     # make sure there are no missing pokemon
+    start = region_record.start
+    end = region_record.end
     extra_count = extra_counts.get(region_name, 0)
-    expected_len = region_record.end - region_record.start + 1 + extra_count
-    assert len(pokemon_list) == expected_len
+    assert len(pokemon_list) == end - start + 1 + extra_count
     # make sure that all pokemon.id are in the ID range
     assert all([start <= int(p.get_id()) <= end for p in pokemon_list])
 
 
-def _ts_test_region(region_name):
-    db = Database()
-    pokemon_list = db.get_region(region_name)
-    assert pokemon_list
-    region_record = region_dict[region_name]
-    start = region_record.start
-    end = len(db) if region_name == "extra" else region_record.end
-    # make sure there are no missing pokemon
-    assert len(pokemon_list) == end - start + 1
-    # if region_name == "extra":
-    #    return
-    # make sure that all pokemon.id are in the ID range
-    assert all([start <= p.id <= end for p in pokemon_list])
-
-
 def test_regions_two():
     for region_name in region_dict:
-        if tuple_store:
-            _ts_test_region(region_name)
-        else:
-            _test_region(region_name)
+        _test_region(region_name)
