@@ -114,7 +114,7 @@ def region_length_test(region_name):
     fmt = 'Testing {}({} vs. {}): {}'
     print(fmt.format(region_name, len(pokemon), expected_len, region_info))
     # test the number of pokemon returned by db.get_region()
-    assert len(pokemon) == delta + 1
+    assert len(pokemon) == expected_len
 
 
 def test_kanto_length():
