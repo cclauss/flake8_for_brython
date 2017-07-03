@@ -60,7 +60,7 @@ def test_second_database():
 
 
 def test_extra_counts():
-    assert len(Database()) == MAX_ID + len(extra_counts)
+    assert len(Database()) == MAX_ID + sum(extra_counts.values())
 
 
 def test_get_extras():
