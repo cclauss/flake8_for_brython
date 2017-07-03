@@ -3,7 +3,7 @@
 # To run the tests, use: python3 -m pytest --capture=sys
 
 from database import Database
-from test_utils import region_dict, MAX_ID
+from test_utils import region_dict, get_region, make_extra_counts, MAX_ID
 
 
 def test_first_database():
@@ -74,7 +74,7 @@ def region_test(region_name):
     middle_pokemon = db.get_pokemon(region_info.start + (delta // 2))
     assert middle_pokemon in pokemon
     # test db.get_pokemon(name)
-    name = middle_pokemon.name if tuple_store else middle_pokemon.get_name()
+    name = middle_pokemon.get_name()
     assert db.get_pokemon(name) in pokemon
     # test the case insensivity of db.get_pokemon(name)
     # assert db.get_pokemon(name.upper()) in pokemon  # !!! FixMe !!!
