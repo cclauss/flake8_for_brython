@@ -3,7 +3,7 @@
 # To run the tests, use: python3 -m pytest --capture=sys
 
 from database import Database
-from test_utils import expected_len, MAX_ID
+from test_utils import expected_len
 
 
 def test_extra_length(region_name='extra'):
@@ -27,5 +27,6 @@ def test_sinnoh_length(region_name='sinnoh'):
 
 
 def test_all_length(region_name='all'):
-    assert len(Database().get_all()) == expected_len(region_name)
+    expected = expected_len(region_name) + expected_len('extra')
+    assert len(Database().get_all()) == expected
 
