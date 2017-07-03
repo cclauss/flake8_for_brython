@@ -7,6 +7,7 @@ from test_utils import expected_len
 
 
 def test_extra_length(region_name='extra'):
+    print(Database().get_extra())
     assert Database().get_extra() == expected_len(region_name)
 
 
