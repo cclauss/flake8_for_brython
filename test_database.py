@@ -83,8 +83,8 @@ def test_region_dict():
         'sinnoh': 107,
         'all': 493
     }
-    assert counts['all'] == sum(counts['kanto'], counts['johto'], counts['hoenn'], counts['sinnoh'])
-    assert counts['all'] == MAX_ID
+    region_counts = (counts[r] for r in 'kanto johto hoenn sinnoh'.split())
+    assert counts['all'] == sum(region_counts) == MAX_ID
     for name, info in region_dict.items():
         assert counts[name] == info.end - info.start + 1
         print('{}: {}'.format(name, counts[name]))
@@ -197,9 +197,9 @@ def _test_region(region_name):
     region_record = region_dict[region_name]
     start = region_record.start
     # make sure there are no missing pokemon
-    end, start = region_record.end, region_record.start
-    expected_len = end - start + 1 + extra_counts.get(region_name, 0)
-    assert len(pokemon_list) == end - start + 1
+    extra_count = extra_counts.get(region_name, 0)
+    expected_len = region_record.end - region_record.start + 1 + extra_count
+    assert len(pokemon_list) == expected_len
     # make sure that all pokemon.id are in the ID range
     assert all([start <= int(p.get_id()) <= end for p in pokemon_list])
 
