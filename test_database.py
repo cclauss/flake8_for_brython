@@ -70,6 +70,7 @@ def test_get_extras():
     #        'extra'), "db.get_region('extra') returns no pokemon"
     # else:
     assert db.get_extra(), 'db.get_extra() returns no pokemon'
+    assert db.get_extra() == sum(extra_counts.values())
 
 
 def test_region_dict():
@@ -82,11 +83,11 @@ def test_region_dict():
         'sinnoh': 107,
         'all': 493
     }
-    assert MAX_ID == counts['all']
+    assert counts['all'] == sum(counts['kanto'], counts['johto'], counts['hoenn'], counts['sinnoh'])
+    assert counts['all'] == MAX_ID
     for name, info in region_dict.items():
         assert counts[name] == info.end - info.start + 1
         print('{}: {}'.format(name, counts[name]))
-    # test the number of pokemon is the Database
 
 
 def get_region(db, region_name):
@@ -195,11 +196,10 @@ def _test_region(region_name):
     pokemon_list = func()
     region_record = region_dict[region_name]
     start = region_record.start
-    end = len(db) if region_name == "extra" else region_record.end
     # make sure there are no missing pokemon
+    end, start = region_record.end, region_record.start
+    expected_len = end - start + 1 + extra_counts.get(region_name, 0)
     assert len(pokemon_list) == end - start + 1
-    if region_name == "extra":
-        return
     # make sure that all pokemon.id are in the ID range
     assert all([start <= int(p.get_id()) <= end for p in pokemon_list])
 
@@ -207,6 +207,7 @@ def _test_region(region_name):
 def _ts_test_region(region_name):
     db = Database()
     pokemon_list = db.get_region(region_name)
+    assert pokemon_list
     region_record = region_dict[region_name]
     start = region_record.start
     end = len(db) if region_name == "extra" else region_record.end
