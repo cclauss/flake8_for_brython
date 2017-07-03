@@ -2,37 +2,17 @@
 
 # To run the tests, use: python3 -m pytest --capture=sys
 
-from collections import namedtuple
 from database import Database
 from main import main
 import pytest
-
-region_record = namedtuple('region_record', 'start end first last')
-region_dict = {
-    "kanto": region_record(1, 151, 'Bulbasaur', 'Mew'),
-    "johto": region_record(152, 251, 'Chikorita', 'Celebi'),
-    "hoenn": region_record(252, 386, 'Treecko', 'Deoxys'),
-    "sinnoh": region_record(387, 493, 'Turtwig', 'Arceus'),
-    # "extra": region_record(494, 100000, None, None)
-}
+from test_utils import region_dict
 
 db = Database()
 print(len(db))
 
-tuple_store = False
-try:
-    Database.MAX_ID    # Old Database makes db.__MAX_ID private
-    tuple_store = True
-except AttributeError:
-    pass
-
 
 def test_no_args(capsys):
-    try:
-        with pytest.raises(SystemExit):
-            main([__file__])
-    except SystemExit:
-        pass
+    main([__file__])
     out, err = capsys.readouterr()
     assert out.startswith("No command line arguments specified.")
 
