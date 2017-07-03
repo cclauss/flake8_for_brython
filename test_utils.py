@@ -30,7 +30,7 @@ def expected_len(region_name):
     """Utility function for knowing the standard pokemon population."""
     if region_name == 'all':
         return MAX_ID
-    elif region_name == 'extras':
+    elif region_name == 'extra':
         return sum(make_extra_counts().values())  # 24
     region_info = region_dict[region_name]
     return region_info.end - region_info.start + 1
