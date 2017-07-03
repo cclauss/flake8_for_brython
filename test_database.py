@@ -26,7 +26,7 @@ def test_extra_counts():
 def test_get_extras():
     db = Database()
     assert db.get_extra(), 'db.get_extra() returns no pokemon'
-    assert db.get_extra() == sum(make_extra_counts().values())
+    assert len(db.get_extra()) == sum(make_extra_counts().values())
 
 
 def region_length_test(region_name):
