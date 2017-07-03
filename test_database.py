@@ -83,9 +83,6 @@ def test_region_dict():
         'all': 493
     }
     assert MAX_ID == counts['all']
-    # Add the extras to the wikipedia counts
-    for region_name, extra_count in extra_counts.items():
-        counts[region_name] += extra_count
     for name, info in region_dict.items():
         assert counts[name] == info.end - info.start + 1
         print('{}: {}'.format(name, counts[name]))
@@ -112,9 +109,9 @@ def region_length_test(region_name):
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
-    delta = region_info.end - region_info.start
+    expected_len = region_info.end - region_info.start + 1 + extra_counts[region_name]
     fmt = 'Testing {}({} vs. {}): {}'
-    print(fmt.format(region_name, len(pokemon), delta + 1, region_info))
+    print(fmt.format(region_name, len(pokemon), expected_len, region_info))
     # test the number of pokemon returned by db.get_region()
     assert len(pokemon) == delta + 1
 
