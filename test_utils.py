@@ -9,7 +9,7 @@
    shared code between dev and test."""
 
 import os
-# import pytest
+from collections import Counter, namedtuple
 
 MAX_ID = 493
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -30,6 +30,8 @@ def expected_len(region_name):
     """Utility function for knowing the standard pokemon population."""
     if region_name == 'all':
         return MAX_ID
+    elif region_name == 'extras':
+        return sum(make_extra_counts().values())  # 24
     region_info = region_dict[region_name]
     return region_info.end - region_info.start + 1
 
@@ -38,7 +40,7 @@ def test_region_dict():
     """Test if region_dict counts match wikipedia."""
     assert _counts['all'] == sum(_counts.values()) == MAX_ID
     for region_name in region_dict:
-        assert counts[region_name] == expected_len(region_name)
+        assert _counts[region_name] == expected_len(region_name)
         # print('{}: {}'.format(region_name, counts[region_name]))
 
 
