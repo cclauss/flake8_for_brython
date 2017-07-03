@@ -2,9 +2,11 @@
 
 # To run the tests, use: python3 -m pytest --capture=sys
 
-from collections import namedtuple
+from collections import Counter, namedtuple
 from database import Database
+import os
 
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 tuple_store = False
 try:
     MAX_ID = Database.MAX_ID
@@ -12,13 +14,39 @@ try:
 except AttributeError:
     MAX_ID = 493  # Old Database makes db.__MAX_ID private :-(
 
-region_info = namedtuple('region_info', 'roman_number start end')
+region_info = namedtuple('region_info', 'start end')
 region_dict = {
-    'kanto': region_info('I', 1, 151),
-    'johto': region_info('II', 152, 251),
-    'hoenn': region_info('III', 252, 386),
-    'sinnoh': region_info('IV', 387, 493),
+    'kanto': region_info(1, 151),
+    'johto': region_info(152, 251),
+    'hoenn': region_info(252, 386),
+    'sinnoh': region_info(387, 493),
 }
+
+extra_counts = None  # Set below after make_extra_counts() is defined
+
+
+def _pokemon_id_to_region(pokemon_id):
+    """Rewrite of Database.__determine_region() avoids sharing implementations
+       between production code and test code."""
+    for region_name, region_info in region_dict.items():
+        if region_info.start <= pokemon_id <= region_info.end:
+            return region_name
+    assert False, '{} is an invalid region'.format(pokemon_id)
+
+
+def make_extra_counts(filename='pokemon.txt'):
+    """Test that correct regions are used in load_all_pokemon.load_extras().
+       Currently generates the dict: {'sinnoh': 14, 'hoenn': 9, 'johto': 1}"""
+    with open(os.path.join(SCRIPT_DIR, 'Data', filename)) as in_file:
+        pokemon_names = tuple([line.split()[0] for line in in_file])
+    filenames = os.listdir(os.path.join(SCRIPT_DIR, 'Images', 'Extra'))
+    father_names = (filename.split('-')[0] for filename in filenames)
+    father_ids = (pokemon_names.index(name) for name in father_names)
+    father_regions = (_pokemon_id_to_region(id) for id in father_ids)
+    return dict(Counter(father_regions))
+
+
+extra_counts = make_extra_counts()
 
 
 def test_first_database():
@@ -31,12 +59,17 @@ def test_second_database():
     print('{} items in second database.'.format(db))
 
 
+def test_extra_counts():
+    assert len(Database()) == MAX_ID + len(extra_counts)
+
+
 def test_get_extras():
     db = Database()
-    if tuple_store:
-        assert db.get_region('extra'), "db.get_region('extra') returns no pokemon"
-    else:
-        assert db.get_extra(), 'db.get_extra() returns no pokemon'
+    # if tuple_store:
+    #    assert db.get_region(
+    #        'extra'), "db.get_region('extra') returns no pokemon"
+    # else:
+    assert db.get_extra(), 'db.get_extra() returns no pokemon'
 
 
 def test_region_dict():
@@ -49,13 +82,14 @@ def test_region_dict():
         'sinnoh': 107,
         'all': 493
     }
-    for name, info in region_dict.items():
-        if name != 'extra':
-            assert counts[name] == info.end - info.start + 1
-            print('{}: {}'.format(name, counts[name]))
     assert MAX_ID == counts['all']
+    # Add the extras to the wikipedia counts
+    for region_name, extra_count in extra_counts.items():
+        counts[region_name] += extra_count
+    for name, info in region_dict.items():
+        assert counts[name] == info.end - info.start + 1
+        print('{}: {}'.format(name, counts[name]))
     # test the number of pokemon is the Database
-    assert len(Database()) == 517  # counts['all'] + extras
 
 
 def get_region(db, region_name):
@@ -73,7 +107,8 @@ def get_region(db, region_name):
 def region_length_test(region_name):
     db = Database()
     # test db.get_region()
-    pokemon = db.get_region(region_name) if tuple_store else get_region(db, region_name)
+    pokemon = db.get_region(region_name) if tuple_store else get_region(
+        db, region_name)
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
@@ -103,7 +138,8 @@ def test_sinnoh_length():
 def region_test(region_name):
     db = Database()
     # test db.get_region()
-    pokemon = db.get_region(region_name) if tuple_store else get_region(db, region_name)
+    pokemon = db.get_region(region_name) if tuple_store else get_region(
+        db, region_name)
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
@@ -178,7 +214,7 @@ def _ts_test_region(region_name):
     end = len(db) if region_name == "extra" else region_record.end
     # make sure there are no missing pokemon
     assert len(pokemon_list) == end - start + 1
-    #if region_name == "extra":
+    # if region_name == "extra":
     #    return
     # make sure that all pokemon.id are in the ID range
     assert all([start <= p.id <= end for p in pokemon_list])
