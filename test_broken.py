@@ -33,7 +33,7 @@ def test_kanto_length():  # passes
     # if tuple_store:
     #    assert len(db.get_region(region_name)) == expected_len  # Fails
     # else:
-    assert len(db.get_kanto()) == counts[region_name]  # Passes
+    assert len(Database().get_kanto()) == counts[region_name]  # Passes
 
 
 def test_johto_length():  # fails:
@@ -42,7 +42,7 @@ def test_johto_length():  # fails:
     # if tuple_store:
     #    assert len(db.get_region(region_name)) == expected_len  # Fails
     # else:
-    assert len(db.get_johto()) == counts[region_name]  # Passes
+    assert len(Database().get_johto()) == counts[region_name]  # Passes
 
 
 def test_hoenn_length():  # fails:
@@ -51,7 +51,7 @@ def test_hoenn_length():  # fails:
     # if tuple_store:
     #    assert len(db.get_region(region_name)) == expected_len  # Fails
     # else:
-    assert len(db.get_hoenn()) == counts[region_name]  # Passes
+    assert len(Database().get_hoenn()) == counts[region_name]  # Passes
 
 
 def test_sinnoh_length():  # fails:
@@ -60,4 +60,4 @@ def test_sinnoh_length():  # fails:
     #if tuple_store:
     #    assert len(db.get_region(region_name)) == expected_len  # Fails
     # else:
-    assert len(db.get_sinnoh()) == counts[region_name]  # Passes
+    assert len(Database().get_sinnoh()) == counts[region_name]  # Passes
