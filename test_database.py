@@ -109,7 +109,8 @@ def region_length_test(region_name):
     assert pokemon, 'No pokemon found in region: ' + region_name
     # test that region_name is in region_dict
     region_info = region_dict[region_name]
-    expected_len = region_info.end - region_info.start + 1 + extra_counts[region_name]
+    extra_count = extra_counts.get(region_name, 0)
+    expected_len = region_info.end - region_info.start + 1 + extra_count
     fmt = 'Testing {}({} vs. {}): {}'
     print(fmt.format(region_name, len(pokemon), expected_len, region_info))
     # test the number of pokemon returned by db.get_region()
