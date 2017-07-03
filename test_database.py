@@ -59,7 +59,7 @@ def test_second_database():
 
 def test_len():
     db = Database()
-    assert len(db) == MAX_ID + db.get_extra()
+    assert len(db) == MAX_ID + len(db.get_extra())
 
 
 def test_extra_counts():
