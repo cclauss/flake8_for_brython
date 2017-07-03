@@ -57,7 +57,7 @@ def test_hoenn_length():  # fails:
 def test_sinnoh_length():  # fails:
     region_name = 'sinnoh'
     # db = Database()
-    #if tuple_store:
+    # if tuple_store:
     #    assert len(db.get_region(region_name)) == expected_len  # Fails
     # else:
     assert len(Database().get_sinnoh()) == counts[region_name]  # Passes
