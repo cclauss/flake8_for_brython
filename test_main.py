@@ -4,7 +4,6 @@
 
 from database import Database
 from main import main
-import pytest
 from test_utils import region_dict
 
 db = Database()
