@@ -1,21 +1,16 @@
 language: python
 python:
-    # - 2.7.13
     - 3.6
-    #- "nightly"  # currently points to 3.7-dev
-#os:
-#    - linux
-#    - osx
 before_install:
     - git clone --depth=50 --branch=master https://github.com/brython-dev/brython ~/brython
-    # - cp *.py ~/brython  # copy local pytest scripts into ~/brython
     - cd ~/brython
 install:
     - pip install flake8
 before_script:
+    - BUILTINS="_,__BRYTHON__,JSObject"
     - python -V
     # stop the build if there are Python syntax errors or undefined names
-    - flake8 . --builtins="_" --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+    - flake8 . --builtins=$BUILTINS --count --select=E901,E999,F821,F822,F823 --show-source --statistics
     # exit-zero treates all errors as warnings.  The GitHub editor is 127 chars wide
     # - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 script: true  # put other tests here
