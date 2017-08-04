@@ -1,14 +1,14 @@
 language: python
 python:
     - 3.6
+cache: pip
 before_install:
     - git clone --depth=50 --branch=master https://github.com/brython-dev/brython ~/brython
     - cd ~/brython
 install:
     - pip install flake8
 before_script:
-    - BUILTINS="_,__BRYTHON__,JSObject"
-    - python -V
+    - BUILTINS="_,JSObject,__BRYTHON__,now,pdir"
     # stop the build if there are Python syntax errors or undefined names
     - flake8 . --builtins=$BUILTINS --count --select=E901,E999,F821,F822,F823 --show-source --statistics
     # exit-zero treates all errors as warnings.  The GitHub editor is 127 chars wide
